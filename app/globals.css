@@ -1,26 +1,465 @@
-@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&family=Lora:wght@400;500;600;700&display=swap');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css');
 
+/* ============================================
+   Variables de couleur (Palette du CEPI)
+   ============================================ */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+    --color-dark: #222831;
+    --color-dark-gray: #393E46;
+    --color-cyan: #00ADB5;
+    --color-light-gray: #EEEEEE;
+    --font-titles: 'Lora', serif;
+    --font-content: 'Open Sans', sans-serif;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* ============================================
+   Réinitialisation et styles de base
+   ============================================ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+    height: 100%;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+    font-family: var(--font-content);
+    color: var(--color-dark);
+    background-color: #fff;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1 0 auto;
+}
+
+footer {
+    flex-shrink: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-titles);
+    font-weight: 700;
+    color: var(--color-dark);
+}
+
+/* ============================================
+   Logo
+   ============================================ */
+.logo-img {
+    height: 50px;
+    width: auto;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+}
+
+.logo-img:hover {
+    transform: scale(1.05);
+}
+
+/* ============================================
+   Navbar
+   ============================================ */
+.navbar {
+    background-color: var(--color-dark) !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.navbar .navbar-brand {
+    padding: 0.5rem 0;
+}
+
+.navbar .nav-link {
+    color: var(--color-light-gray) !important;
+    transition: color 0.3s ease;
+    font-family: var(--font-titles);
+    font-weight: 500;
+}
+
+.navbar .nav-link:hover {
+    color: var(--color-cyan) !important;
+}
+
+.navbar .nav-link.active {
+    color: var(--color-cyan) !important;
+}
+
+.navbar .nav-link.user-icon {
+    width: 40px;
+    height: 40px;
+    border: 2px solid var(--color-light-gray);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 !important;
+}
+
+.navbar .nav-link.user-icon:hover {
+    background-color: rgba(0, 173, 181, 0.1);
+}
+
+.navbar .nav-link.user-icon svg {
+    stroke: var(--color-light-gray);
+}
+
+/* ============================================
+   Search y Filter Bar
+   ============================================ */
+.input-group .input-group-text {
+    border-color: var(--color-dark) !important;
+    color: var(--color-dark);
+}
+
+.input-group .form-control {
+    border-width: 2px;
+    padding: 0.75rem 1rem;
+    font-family: var(--font-content);
+}
+
+.input-group .form-control:focus {
+    border-color: var(--color-cyan) !important;
+    box-shadow: 0 0 0 0.2rem rgba(0, 173, 181, 0.25);
+}
+
+.form-select {
+    border-width: 2px;
+    padding: 0.75rem 2.5rem 0.75rem 1rem;
+}
+
+.form-select:focus {
+    border-color: var(--color-cyan) !important;
+    box-shadow: 0 0 0 0.2rem rgba(0, 173, 181, 0.25);
+}
+
+/* ============================================
+   Botones (Bootstrap Override)
+   ============================================ */
+.btn-primary {
+    background-color: var(--color-cyan) !important;
+    border-color: var(--color-cyan) !important;
+    color: var(--color-dark) !important;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #007D80 !important;
+    border-color: #007D80 !important;
+}
+
+.btn-primary:focus {
+    box-shadow: 0 0 0 0.25rem rgba(0, 173, 181, 0.25) !important;
+}
+
+.btn-dark {
+    background-color: var(--color-dark) !important;
+    border-color: var(--color-dark) !important;
+    transition: all 0.3s ease;
+}
+
+.btn-dark:hover {
+    background-color: var(--color-dark-gray) !important;
+    border-color: var(--color-dark-gray) !important;
+}
+
+.btn-secondary {
+    background-color: var(--color-dark-gray) !important;
+    border-color: var(--color-dark-gray) !important;
+    transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+    background-color: var(--color-dark) !important;
+    border-color: var(--color-dark) !important;
+}
+
+/* ============================================
+   Tarjetas de Blog
+   ============================================ */
+.blog-card {
+    border: 3px solid var(--color-dark);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.blog-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.blog-card .card-img-top {
+    height: 200px;
+    object-fit: cover;
+    background-color: var(--color-dark);
+}
+
+.blog-card .card-body {
+    padding: 1.5rem;
+    background-color: #fff;
+}
+
+.blog-card .card-title {
+    color: var(--color-dark);
+    font-family: var(--font-titles);
+    font-size: 1.25rem;
+    margin-bottom: 0.75rem;
+}
+
+.blog-card .card-text {
+    color: #666;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.blog-card .card-footer {
+    padding: 1rem 1.5rem;
+    background-color: var(--color-dark-gray);
+    border-top: 2px solid var(--color-dark);
+}
+
+.blog-card .card-footer a {
+    padding: 0.5rem 1rem !important;
+}
+
+/* ============================================
+   Contenido del artículo
+   ============================================ */
+.blog-article {
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 12px;
+    border: 2px solid var(--color-dark);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.blog-article header {
+    border-bottom: 3px solid var(--color-cyan);
+    padding-bottom: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.blog-article h1 {
+    color: var(--color-dark);
+    font-family: var(--font-titles);
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.blog-article h2 {
+    color: var(--color-dark-gray);
+    font-family: var(--font-titles);
+    font-size: 1.5rem;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+}
+
+.blog-article p {
+    line-height: 1.8;
+    margin-bottom: 1rem;
+    text-align: justify;
+    font-size: 1rem;
+}
+
+.blog-article .article-meta {
+    font-size: 0.95rem;
+    color: #999;
+}
+
+.blog-article .article-content {
+    font-family: var(--font-content);
+}
+
+.blog-article img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin: 1.5rem 0;
+}
+
+/* ============================================
+   Sección de Comentarios
+   ============================================ */
+.comments-section h3 {
+    font-family: var(--font-titles);
+    font-size: 1.5rem;
+    color: var(--color-dark);
+    margin-bottom: 1.5rem;
+}
+
+.comment-form .form-control {
+    border: 2px solid var(--color-dark) !important;
+    border-radius: 6px;
+    padding: 1rem;
+    font-family: var(--font-content);
+    resize: vertical;
+}
+
+.comment-form .form-control:focus {
+    border-color: var(--color-cyan) !important;
+    box-shadow: 0 0 0 0.2rem rgba(0, 173, 181, 0.25);
+}
+
+.comments-list .comment .comment-avatar {
+    width: 50px;
+    min-width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--color-dark);
+    border-radius: 50%;
+    background-color: #f5f5f5;
+}
+
+.comments-list .comment .comment-text {
+    color: #555;
+    line-height: 1.6;
+    margin: 0;
+    font-size: 0.95rem;
+}
+
+/* ============================================
+   Footer
+   ============================================ */
+footer {
+    background-color: var(--color-dark) !important;
+    color: var(--color-light-gray);
+    margin-top: auto;
+    border-top: 2px solid var(--color-dark-gray);
+}
+
+footer p {
+    margin: 0;
+    font-size: 0.95rem;
+}
+
+footer .social-links {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+footer .social-links a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border: 2px solid var(--color-light-gray);
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+footer .social-links a:hover {
+    background-color: var(--color-cyan);
+    border-color: var(--color-cyan);
+}
+
+footer .social-links a:hover svg {
+    color: var(--color-dark);
+}
+
+footer .social-links a svg {
+    width: 20px;
+    height: 20px;
+    transition: color 0.3s ease;
+}
+
+/* ============================================
+   Form Controls
+   ============================================ */
+.form-control {
+    border: 2px solid var(--color-dark);
+    border-radius: 6px;
+    padding: 0.75rem 1rem;
+    font-family: var(--font-content);
+}
+
+.form-control:focus {
+    border-color: var(--color-cyan);
+    box-shadow: 0 0 0 0.2rem rgba(0, 173, 181, 0.25);
+}
+
+.form-label {
+    font-weight: 600;
+    color: var(--color-dark);
+    margin-bottom: 0.5rem;
+}
+
+/* ============================================
+   Responsive Design
+   ============================================ */
+@media (max-width: 768px) {
+    .blog-card {
+        margin-bottom: 1rem;
+    }
+
+    .blog-article {
+        padding: 1.5rem;
+    }
+
+    .blog-article h1 {
+        font-size: 1.75rem;
+    }
+
+    .blog-article h2 {
+        font-size: 1.25rem;
+    }
+
+    .navbar-nav {
+        padding-top: 1rem;
+    }
+
+    footer .social-links {
+        justify-content: center;
+        margin-top: 1rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .logo-img {
+        height: 40px;
+    }
+
+    .blog-article {
+        padding: 1rem;
+    }
+
+    .blog-article h1 {
+        font-size: 1.5rem;
+    }
+
+    .blog-article h2 {
+        font-size: 1.1rem;
+    }
+
+    .blog-article p {
+        text-align: left;
+        font-size: 0.9rem;
+    }
+
+    .blog-article header {
+        padding-bottom: 1rem;
+    }
+
+    .comment-form .form-control {
+        font-size: 16px;
+    }
+
+    .form-select {
+        font-size: 14px;
+    }
+
+    .input-group .form-control {
+        font-size: 16px;
+    }
 }
